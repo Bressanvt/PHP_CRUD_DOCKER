@@ -32,3 +32,5 @@ function getPdoConnection(): PDO
     return new PDO($dsn, $db['user'], $db['password'], $options);
 }
 
+// Exemplo de uso:
+// $pdo = getPdoConnection();
