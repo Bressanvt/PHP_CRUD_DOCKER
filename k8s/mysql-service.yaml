@@ -1,0 +1,16 @@
+# Service ClusterIP expõe o MySQL para os pods internos (app).
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql-service
+spec:
+  selector:
+    app: mysql
+  ports:
+    - name: mysql
+      port: 3306
+      targetPort: 3306
+  # Para expor externamente (ex: Workbench), troque para NodePort ou LoadBalancer:
+  # type: NodePort
+  #   nodePort: 30306
+

@@ -1,0 +1,46 @@
+name: CI - Build e push para Docker Hub
+
+on:
+  push: # dispara a cada commit/push em qualquer branch
+    branches:
+      - "*"
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v4
+
+      - name: Configurar Docker Buildx (melhor cache)
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login no Docker Hub (usa secrets configurados no GitHub)
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Definir metadados da imagem (tag latest + SHA)
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ secrets.DOCKER_USERNAME }}/php-crud-docker
+          tags: |
+            type=raw,value=latest
+            type=sha,format=short
+
+      - name: Build e push da imagem
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true                 # envia para o Docker Hub
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          file: Dockerfile
+
+      # Observação:
+      # - Para que funcione, configure DOCKER_USERNAME e DOCKER_PASSWORD
+      #   em GitHub > Settings > Secrets and variables > Actions.
+      # - Essa pipeline roda a cada push, garantindo build contínuo.
+

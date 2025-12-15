@@ -1,0 +1,16 @@
+# Service para expor a aplicação PHP.
+apiVersion: v1
+kind: Service
+metadata:
+  name: php-crud-service
+spec:
+  selector:
+    app: php-crud
+  ports:
+    - name: http
+      port: 80
+      targetPort: 80
+      # Para teste local em cluster bare-metal, troque para NodePort:
+      # nodePort: 30080
+  type: LoadBalancer # Em nuvem cria IP público; em ambiente local (kind/minikube) vira NodePort interno.
+

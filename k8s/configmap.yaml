@@ -1,0 +1,11 @@
+# ConfigMap para valores não sensíveis do banco.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: php-crud-config
+data:
+  DB_HOST: "mysql-service"
+  DB_PORT: "3306"
+  DB_NAME: "contatos_db"
+  DB_USER: "crud_user"
+

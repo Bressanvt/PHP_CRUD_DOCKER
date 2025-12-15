@@ -1,0 +1,27 @@
+# Deployment da aplicação PHP com 3 réplicas para alta disponibilidade.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: php-crud-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: php-crud
+  template:
+    metadata:
+      labels:
+        app: php-crud
+    spec:
+      containers:
+        - name: php-crud
+          image: usuario/php-crud-docker:latest # substitua pelo seu Docker Hub (ex: seuuser/php-crud:latest)
+          ports:
+            - containerPort: 80
+          envFrom:
+            - configMapRef:
+                name: php-crud-config
+            - secretRef:
+                name: php-crud-secret
+          # Recursos poderiam ser limitados aqui (resources: requests/limits) em produção.
+
