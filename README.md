@@ -26,8 +26,8 @@ Aplicação simples em PHP puro com MySQL, pensada para estudo de deploy em Verc
 
 ### Parar e limpar
 ```bash
-docker-compose down        # para containers
-docker-compose down -v     # remove volume e dados do MySQL
+docker-compose down        
+docker-compose down -v     
 ```
 
 ### Acesso externo ao MySQL
@@ -86,10 +86,3 @@ kubectl apply -f k8s/app-service.yaml
 1) Troque `mysql-service.yaml` para `type: NodePort` e defina `nodePort: 30306`.  
 2) Conecte via Workbench apontando para o IP do node e porta 30306.  
 3) Usuário, senha e DB iguais aos definidos no ConfigMap/Secret.
-
-## Notas rápidas de boas práticas
-- Use secrets reais em produção (não commitar `.env`).  
-- Configure limites de recursos em K8s e readiness/liveness probes.  
-- Habilite logs centralizados e backups do MySQL.  
-- Proteja a rota de exclusão com CSRF/autenticação em cenários reais.
-

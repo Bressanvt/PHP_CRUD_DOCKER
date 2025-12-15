@@ -10,7 +10,6 @@ spec:
     - name: http
       port: 80
       targetPort: 80
-      # Para teste local em cluster bare-metal, troque para NodePort:
-      # nodePort: 30080
-  type: LoadBalancer # Em nuvem cria IP público; em ambiente local (kind/minikube) vira NodePort interno.
+      nodePort: 30080
+  type: LoadBalancer 
 
